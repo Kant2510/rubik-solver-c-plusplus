@@ -1,4 +1,4 @@
-# Rubik Cube With C++
+# Rubik Cube & C++
 Solving the rubik 3x3x3.
 You feel not good because that's too hard to finish a 3D combination puzzle?
 Don't worry! Come here and I'll give you a solution to this problem.
