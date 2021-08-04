@@ -17,7 +17,7 @@ class rubik{
         char z;
 };
 rubik u, d, f, b, r, l;
-void setcolor(){                //set color coordinte for rubik from file .txt| thiet lap toa do mau cho khoi rubik tu tep txt
+void setcolor(){                //set color coordinate for rubik from file .txt| thiet lap toa do mau cho khoi rubik tu tep txt
     ifstream ru;
 	ru.open("C://Users//fptshop//Documents//C++//rubik.txt");
     i=1;
@@ -155,7 +155,7 @@ class mov{                      //move notation| ki hieu xoay rubik
         }
 };
 mov m;
-int writeAlg( string alg){      //writle move algorithm| viet thuat toan xoay      
+int writeAlg( string alg){      //write move algorithm| viet thuat toan xoay      
     for( i=0; i<=alg.length()-1; i++){
         if( alg[i]=='R' || alg[i]=='L' || alg[i]=='F' || alg[i]=='B' || alg[i]=='U' || alg[i]=='D'){
             if( alg[i+1]==' ' || alg[i+1]=='\0') s=alg.substr( i, 1);
