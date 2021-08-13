@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 using namespace std;
 int  eposi, cposi, fposi, total=0, count=0,
     UB, UL, UF, UR, DB, DL, DF, DR, FR, RB, BL, LF, 
@@ -7,7 +8,7 @@ int  eposi, cposi, fposi, total=0, count=0,
     UBL, ULF, UFR, URB, DBR, DRF, DFL, DLB, 
     BLU, LFU, FRU, RBU, BRD, RFD, FLD, LBD, 
     LUB, FUL, RUF, BUR, RDB, FDR, LDF, BDL;
-string alg, s;
+string alg, s, sw;
 char box;
 class rubik{
     public:
@@ -320,10 +321,10 @@ int cross1( int edge){
     if( edge == UL) writeAlg( "U1 F2");
     if( edge == UR) writeAlg( "U F2");
     if( edge == UF) writeAlg( "F2");
-    if( edge == DF)
+    if( edge == DF) {}
     if( edge == DL) writeAlg( "D");
     if( edge == DR) writeAlg( "D1 F D F1");
-    if( edge == DB) writeAlg( "L1 D2");
+    if( edge == DB) writeAlg( "L1 D2 L");
     if( edge == FR) writeAlg( "F1 U1 R1 F R");
     if( edge == RB) writeAlg( "R2 F R2");
     if( edge == BL) writeAlg( "L U1 L1 F2");
@@ -359,29 +360,47 @@ int f2l( int corner, int edge){
     
     int CoEd = corner+edge;
 
-    if( CoEd == DRF+RF)
+    if( CoEd == DRF+RF) {}
     if( CoEd == DRF+FR) writeAlg( "R U2 R1 U R U2 R1 U F1 U1 F");
+    if( CoEd == DRF+UB) writeAlg( "U");
+    if( CoEd == DRF+UF) writeAlg( "U1");
+    if( CoEd == DRF+UR) writeAlg( "U2");
+    if( CoEd == DRF+LU) writeAlg( "U");
+    if( CoEd == DRF+RU) writeAlg( "U1");
+    if( CoEd == DRF+FU) writeAlg( "U2");
     if( CoEd == DRF+UL) writeAlg( "R U1 R1 F R1 F1 R");
     if( CoEd == DRF+BU) writeAlg( "F1 U F U R U1 R1");
 
     if( CoEd == RFD+FR) writeAlg( "R2 B U B1 U1 R1 U R1");
     if( CoEd == RFD+RF) writeAlg( "R U1 R1 U R U2 R2 F R F1");
+    if( CoEd == RFD+UR) writeAlg( "U");
+    if( CoEd == RFD+UL) writeAlg( "U1");
+    if( CoEd == RFD+UB) writeAlg( "U2");
+    if( CoEd == RFD+BU) writeAlg( "U");
+    if( CoEd == RFD+FU) writeAlg( "U1");
+    if( CoEd == RFD+LU) writeAlg( "U2");
     if( CoEd == RFD+UF) writeAlg( "R U R1 U1 F R1 F1 R");
     if( CoEd == RFD+RU) writeAlg( "R U R1 U1 R U R1");
 
     if( CoEd == FDR+FR) writeAlg( "R U1 R U B U1 B1 R2");
     if( CoEd == FDR+RF) writeAlg( "R U R1 U1 R U2 R1 U1 R U R1");
+    if( CoEd == FDR+UR) writeAlg( "U");
+    if( CoEd == FDR+UL) writeAlg( "U1");
+    if( CoEd == FDR+UB) writeAlg( "U2");
+    if( CoEd == FDR+BU) writeAlg( "U");
+    if( CoEd == FDR+FU) writeAlg( "U1");
+    if( CoEd == FDR+LU) writeAlg( "U2");
     if( CoEd == FDR+UF) writeAlg( "F1 U1 F U F1 U1 F");
-    if( CoEd == FDR+UR) writeAlg( "R U1 R2 F R F1");
+    if( CoEd == FDR+RU) writeAlg( "R U1 R2 F R F1");
 
-    if( CoEd == UFR+UB) writeAlg( "U2 R U R F R F1");
+    if( CoEd == UFR+UB) writeAlg( "U2 R U R1 F1 U1 F");
     if( CoEd == UFR+BU) writeAlg( "U R U2 R2 F R F1");
-    if( CoEd == UFR+UL) writeAlg( "U2 R2 U2 R1 U1 R U1 R2");
-    if( CoEd == UFR+LU) writeAlg( "R U2 R1 U1 R U R1");
+    if( CoEd == UFR+UL) writeAlg( "U1 F1 U2 F2 R1 F1 R");
+    if( CoEd == UFR+LU) writeAlg( "U2 R U R2 F R F1");
     if( CoEd == UFR+UR) writeAlg( "U2 F2 U2 F U F1 U F2");
-    if( CoEd == UFR+RU) writeAlg( "U2 F1 U1 F2 R1 F1 R");
+    if( CoEd == UFR+RU) writeAlg( "R U2 R1 U1 R U R1");
     if( CoEd == UFR+UF) writeAlg( "F1 U2 F U F1 U1 F");
-    if( CoEd == UFR+FU) writeAlg( "U1 F1 U2 F2 R1 F1 R");
+    if( CoEd == UFR+FU) writeAlg( "U2 R2 U2 R1 U1 R U1 R2");
     if( CoEd == UFR+FR) writeAlg( "R U1 R1 F1 U2 F");
     if( CoEd == UFR+RF) writeAlg( "R U R1 U1 R U R1 U1 R U R1");
 
@@ -393,7 +412,7 @@ int f2l( int corner, int edge){
     if( CoEd == RUF+RU) writeAlg( "U1 R U1 R1 U R U R1");
     if( CoEd == RUF+UF) writeAlg( "F R1 F1 R");
     if( CoEd == RUF+FU) writeAlg( "U F1 U2 F U1 R U R1");
-    if( CoEd == RUF+FR) writeAlg( "U F U1 F U1 R U R1");
+    if( CoEd == RUF+FR) writeAlg( "U F1 U1 F U1 R U R1");
     if( CoEd == RUF+RF) writeAlg( "U F1 U F U1 F R1 F1 R");
 
     if( CoEd == FRU+UB) writeAlg( "U1 R U1 R1 U F1 U1 F");
@@ -407,7 +426,6 @@ int f2l( int corner, int edge){
     if( CoEd == FRU+FR) writeAlg( "U1 R U R1 U F1 U1 F");
     if( CoEd == FRU+RF) writeAlg( "U1 R U1 R1 U R1 F R F1");  
     m.d1();
-    count++;
     return 0;
 }
 void CROSS(){
@@ -418,7 +436,7 @@ void CROSS(){
 }
 void F2L(){
     f2l( 119103114, 103114);
-    f2l( 119111103, 111103); cout<<endl;
+    f2l( 119111103, 111103); cout<<endl<<"            ";
     f2l( 119098111,  98111);
     f2l( 119114098, 114098);
 }
@@ -429,7 +447,7 @@ void OBB(){
     if( u.y + u.z == 242 && u.w + u.x != 242) m.U1();
     if( u.w + u.z == 242 && u.x + u.y != 242) m.U();
     if( u.w + u.y == 242 && u.x + u.z != 242) writeAlg( "F1 U1 L1 U L F");
-    if( u.x + u.y == 242 && u.w + u.z != 242) writeAlg( "F1 L1 U1 LU F");
+    if( u.x + u.y == 242 && u.w + u.z != 242) writeAlg( "F1 L1 U1 L U F");
 
     if( l.a + l.b + r.a + r.b == 484) writeAlg( "B U2 B1 U1 B U B1 U1 B U1 B1");
     if( f.a + f.b + b.c + b.d == 484) writeAlg( "R U2 R1 U1 R U R1 U1 R U1 R1");
@@ -437,7 +455,7 @@ void OBB(){
     if( f.a + f.b + l.a + r.b == 484) writeAlg( "B1 U F U1 B U1 F1 U1 F U1 F1");
     if( r.a + r.b + b.c + f.a == 484) writeAlg( "L U1 R1 U L1 U R U R1 U R");
     if( b.c + b.d + l.b + r.a == 484) writeAlg( "F1 U B U1 F U1 B1 U1 B U1 B1");
-    if( l.a + l.b + u.d + f.b == 484) writeAlg( "R1 U L U1 R U1 L1 U1 L U1 L1");
+    if( l.a + l.b + b.d + f.b == 484) writeAlg( "R1 U L U1 R U1 L1 U1 L U1 L1");
 
     if( l.a + f.a + r.a + u.b == 484) writeAlg( "R U2 R1 U1 R U1 R1");
     if( f.a + r.a + b.d + u.a == 484) writeAlg( "R1 U L U1 R U L1");
@@ -447,7 +465,7 @@ void OBB(){
     if( b.c + l.b + f.b + u.b == 484) writeAlg( "L U1 R1 U L1 U1 R");
     if( l.b + f.b + r.b + u.a == 484) writeAlg( "L1 U2 L U L1 U L");
     if( f.b + r.b + b.c + u.c == 484) writeAlg( "R U1 L1 U R1 U1 L");
-    if( r.b + b.c + l.b + u.d == 484) writeAlg( "R1 U2 R U R1 U R1");
+    if( r.b + b.c + l.b + u.d == 484) writeAlg( "R1 U2 R U R1 U R");
 
     if( u.a + u.b + l.b + r.a == 484) writeAlg( "F R B1 R1 F1 R B R1");
     if( u.c + u.a + f.b + b.d == 484) writeAlg( "R1 F1 L F R F1 L1 F");
@@ -462,7 +480,7 @@ void OBB(){
     if( u.b + u.c + r.a + b.c == 484) writeAlg( "R B1 R1 F R B R1 F1");
     if( u.a + u.d + b.d + l.b == 484) writeAlg( "B L1 B1 R B L B1 R1");
     if( u.c + u.b + l.a + f.b == 484) writeAlg( "L F1 L1 B L F L1 B1");
-    if( u.c + u.a + f.a + r.b == 484) writeAlg( "F R1 F1 L F R F1 L1");
+    if( u.a + u.d + f.a + r.b == 484) writeAlg( "F R1 F1 L F R F1 L1");
 }
 void PLL(){
     count = 1;
@@ -470,117 +488,189 @@ void PLL(){
     if( f.a==f.b && f.b==l.w &&
         r.a==r.b && r.b==f.w &&
         l.a==l.b && l.b==r.w &&
-        b.c==b.z && b.z==b.d) writeAlg( "R U1 R U R U R U1 R1 U1 R2");
+        b.c==b.z && b.z==b.d) { writeAlg( "R U1 R U R U R U1 R1 U1 R2");  break;}
 
     if( f.a==f.b && f.b==r.w &&
         r.a==r.b && r.b==l.w &&
         l.a==l.b && l.b==f.w &&
-        b.c==b.z && b.z==b.d) writeAlg( "R2 U R U R1 U1 R1 U1 R1 U R1");
+        b.c==b.z && b.z==b.d) { writeAlg( "R2 U R U R1 U1 R1 U1 R1 U R1");  break;}
 
     if( f.a==f.b && f.b==b.z &&
         r.a==r.b && r.b==l.w &&
         l.a==l.b && l.b==r.w &&
-        b.c==b.d && b.d==f.w) writeAlg( "M2 U1 M2 U2 M2 U1 M2");
+        b.c==b.d && b.d==f.w) { writeAlg( "M2 U1 M2 U2 M2 U1 M2");  break;}
 
     if( f.a==f.b && f.b==l.w &&
         r.a==r.b && r.b==b.z &&
         l.a==l.b && l.b==f.w &&
-        b.c==b.d && b.d==r.w) writeAlg( "M2 U1 M2 U1 M U2 M2 U2 M U2");
+        b.c==b.d && b.d==r.w) { writeAlg( "M2 U1 M2 U1 M U2 M2 U2 M U2");  break;}
 
     if( f.w==r.a && r.a==r.b &&
         r.w==b.d && b.d==l.b &&
         l.a==l.w && l.w==f.b &&
-        b.c==b.z && b.z==f.a) writeAlg( "R2 F2 R1 B1 R F2 R1 B R1");
+        b.c==b.z && b.z==f.a) { writeAlg( "R2 F2 R1 B1 R F2 R1 B R1");  break;}
 
     if( f.w==b.d && b.d==l.b &&
         r.w==f.a && f.a==f.b &&
         l.a==l.w && l.w==r.b &&
-        b.c==b.z && b.z==r.a) writeAlg( "R B1 R F2 R1 B R F2 R2");
+        b.c==b.z && b.z==r.a) { writeAlg( "R B1 R F2 R1 B R F2 R2");  break;}
 
     if( f.w==r.b && r.b==l.a &&
         r.w==b.d && b.d==f.b &&
         l.w==f.a && f.a==b.c &&
-        b.z==l.b && l.b==r.a) writeAlg( "R B1 R1 F R B R1 F1 R B R1 F R B1 R1 F1");
+        b.z==l.b && l.b==r.a) { writeAlg( "R B1 R1 F R B R1 F1 R B R1 F R B1 R1 F1");  break;}
 
     if( f.a==f.w && f.w==r.b &&
         r.a==b.c && b.c==b.z &&
         l.a==l.b && l.b==r.w &&
-        b.d==l.w && l.w==f.b) writeAlg( "R U R1 U1 R1 F R2 U1 R1 U1 R U R1 F1");
+        b.d==l.w && l.w==f.b) { writeAlg( "R U R1 U1 R1 F R2 U1 R1 U1 R U R1 F1");  break;}
 
     if( f.w==r.a && r.a==l.b &&
         r.w==l.a && l.a==f.b &&
         l.w==f.a && f.a==r.b &&
-        b.c==b.z && b.z==b.d) writeAlg( "R1 U2 R1 U1 B1 R1 B2 U1 B1 U B1 R B U1 R");
+        b.c==b.z && b.z==b.d) { writeAlg( "R1 U2 R1 U1 B1 R1 B2 U1 B1 U B1 R B U1 R");  break;}
 
     if( f.a==f.w && f.w==r.b &&
         r.a==r.w && r.w==b.c &&
         l.a==l.w && l.w==l.b &&
-        b.d==b.z && b.z==f.b) writeAlg( "L1 R1 U2 R U R1 U2 L U1 R U");
+        b.d==b.z && b.z==f.b) { writeAlg( "L1 R1 U2 R U R1 U2 L U1 R U");  break;}
 
     if( f.a==b.c && b.c==b.z &&
         r.a==r.w && r.w==r.b &&
         l.a==f.w && f.w==f.b &&
-        b.d==l.w && l.w==l.b) writeAlg( "R L U2 L1 U1 L U2 R1 U L1 U1");
+        b.d==l.w && l.w==l.b) { writeAlg( "R L U2 L1 U1 L U2 R1 U L1 U1");  break;}
 
     if( f.a==f.b && f.b==r.w &&
         r.a==b.c && b.c==f.w &&
         l.a==r.b && r.b==b.z &&
-        b.d==l.w && l.w==l.b) writeAlg( "R1 U2 R U2 R1 F R U R1 U1 R1 F1 R2 U1");
+        b.d==l.w && l.w==l.b) { writeAlg( "R1 U2 R U2 R1 F R U R1 U1 R1 F1 R2 U1");  break;}
 
-    if( f.a==f.a && f.a==r.w &&
+    if( f.a==f.b && f.b==l.w &&
         r.a==r.w && r.w==b.c &&
         l.a==r.b && r.b==b.z &&
-        b.d==l.b && l.b==f.w) writeAlg( "L U2 L1 U2 L F1 L1 U1 L U L F L2 U");
+        b.d==l.b && l.b==f.w) { writeAlg( "L U2 L1 U2 L F1 L1 U1 L U L F L2 U");  break;}
 
     if( f.a==b.c && b.c==b.z &&
         r.a==l.b && l.b==f.w &&
         l.a==l.w && l.w==r.b &&
-        b.d==f.b && f.b==r.w) writeAlg( "L1 U R U1 L U L1 U R1 U1 L U2 R U2 R1");
+        b.d==f.b && f.b==r.w) { writeAlg( "L1 U R U1 L U L1 U R1 U1 L U2 R U2 R1");  break;}
 
     if( f.a==f.w && f.w==b.c &&
         r.a==b.z && b.z==l.b &&
         l.a==r.w && r.w==r.b &&
-        b.d==l.w && l.w==f.b) writeAlg( "F R U1 R1 U1 R U R1 F1 R U R1 U1 R1 F R F1");
+        b.d==l.w && l.w==f.b) { writeAlg( "F R U1 R1 U1 R U R1 F1 R U R1 U1 R1 F R F1");  break;}
 
     if( f.a==b.a && b.c==b.z &&
         r.a==l.w && l.w==l.w &&
         l.a==r.w && r.w==r.b &&
-        b.d==f.w && f.w==f.b) writeAlg( "L U1 R U2 L1 U R1 L1 U1 R U2 L1 U R1 U1");
+        b.d==f.w && f.w==f.b) { writeAlg( "L U1 R U2 L1 U R1 L1 U1 R U2 L1 U R1 U1");  break;}
 
     if( f.a==f.w && f.w==b.c &&
         r.a==r.w && r.w==l.b &&
         l.a==l.w && l.w==r.b &&
-        b.d==b.z && b.z==f.b) writeAlg( "R1 U L1 U2 R U1 L R1 U L1 U2 R U1 L U");
+        b.d==b.z && b.z==f.b) { writeAlg( "R1 U L1 U2 R U1 L R1 U L1 U2 R U1 L U");  break;}
 
     if( f.a==r.b && r.b==b.z &&
         r.a==r.w && r.w==b.c &&
         l.a==l.b && l.b==f.w &&
-        b.d==l.w && l.w==f.b) writeAlg( "R U R1 F2 u1 F U1 F1 U F1 u F2");
+        b.d==l.w && l.w==f.b) { writeAlg( "R U R1 F2 u1 F U1 F1 U F1 u F2");  break;}
 
     if( f.a==r.w && r.w==b.c &&
         r.a==r.b && r.b==f.w &&
         l.a==f.b && f.b==b.z &&
-        b.d==l.w && l.w==l.b) writeAlg( "L1 U1 L F2 u F1 U F U1 F u1 F2");
+        b.d==l.w && l.w==l.b) { writeAlg( "L1 U1 L F2 u F1 U F U1 F u1 F2");  break;}
 
     if( f.a==r.b && r.b==l.w &&
         r.a==r.w && r.w==l.b &&
         l.a==f.b && f.b==b.z &&
-        b.c==f.w && f.w==b.d) writeAlg( "F2 u1 F U1 F U F1 u F2 R U1 R1");
+        b.c==f.w && f.w==b.d) { writeAlg( "F2 u1 F U1 F U F1 u F2 R U1 R1");  break;}
 
     if( f.a==r.b && r.b==b.z &&
         r.a==l.w && l.w==l.b &&
         l.a==f.b && f.b==r.w &&
-        b.c==f.w && f.w==b.d) writeAlg( "F2 u F1 U F1 U1 F u1 F2 L1 U L");
+        b.c==f.w && f.w==b.d) { writeAlg( "F2 u F1 U F1 U1 F u1 F2 L1 U L");  break;}
     m.U();
     count++;
    }
+   while( f.w != f.n) m.U();
+}
+void scramble(){
+	//srand(time(NULL));
+	cout<<"  - Scramble: ";
+	for(int j=1;j<=20;j++){
+		int random=rand()%17;
+		switch (random){
+			case  0: m.R();  break;
+			case  1: m.R2(); break;
+			case  2: m.R1(); break;
+			case  3: m.L();  break;
+			case  4: m.L2(); break;
+			case  5: m.L1(); break;
+			case  6: m.F();  break;
+			case  7: m.F2(); break;
+			case  8: m.F1(); break;
+			case  9: m.B();  break;
+			case 10: m.B2(); break;
+			case 11: m.B1(); break;
+			case 12: m.U();  break;
+			case 13: m.U2(); break;
+			case 14: m.U1(); break;
+			case 15: m.D();  break;
+			case 16: m.D2(); break;
+			case 17: m.D1(); break;
+		}
+	}
+    total=0;
+    cout<<endl;
+}
+void setcolorfromkeyboard(){
+    cout<<"Set color on UP surface    : ";
+    cin>>u.a>>u.w>>u.b>>u.x>>u.n>>u.y>>u.c>>u.z>>u.d;
+	cout<<"Set color on FRONT surface : ";
+    cin>>f.a>>f.w>>f.b>>f.x>>f.n>>f.y>>f.c>>f.z>>f.d;
+	cout<<"Set color on DOWN surface  : ";
+    cin>>d.a>>d.w>>d.b>>d.x>>d.n>>d.y>>d.c>>d.z>>d.d;
+	cout<<"Set color on LEFT surface  : ";
+    cin>>l.a>>l.w>>l.b>>l.x>>l.n>>l.y>>l.c>>l.z>>l.d;
+	cout<<"Set color on RIGHT surface : ";
+    cin>>r.a>>r.w>>r.b>>r.x>>r.n>>r.y>>r.c>>r.z>>r.d;
+	cout<<"Set color on BEHIND surface: ";
+    cin>>b.a>>b.w>>b.b>>b.x>>b.n>>b.y>>b.c>>b.z>>b.d;
+    pEdge(); pCorner();
+}
+void input(){
+    cout<<"Wanna scramble? Yes or No ? "; cin>>sw;
+    if( sw=="yes" || sw=="Yes" || sw=="y" || sw=="YES" || sw=="ok" || sw=="Ok" || sw=="OK"){
+        setcolor(); 
+        scramble();
+    }
+    else setcolorfromkeyboard();
+}
+void solve(){
+    cout<<endl<<"  - CROSS : "; CROSS(); cout<<total<<endl;
+    cout<<endl<<"  - F2L   : "; F2L(); cout<<total<<endl;
+    cout<<endl<<"  - OBB   : "; OBB(); cout<<total<<endl;
+    cout<<endl<<"  - PLL   : "; PLL(); cout<<total<<endl;
+    cout<<endl<<"	Total: "<<total<<" moves"<<endl;
 }
 int main(){
-    setcolor();
-    CROSS();cout<<endl;
-    F2L();cout<<endl;
-    OBB();cout<<endl;
-    PLL();cout<<endl;
-    cout<<total;
+    clock_t start, end;
+    double time;
+    start=clock();
+    cout<<endl<<endl;
+    cout<<"     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||  "<<endl;
+    cout<<"    ||                                                      || "<<endl;
+    cout<<"    ||                  SOLVING RUBIK CUBE:                 || "<<endl;
+    cout<<"    ||                                                      || "<<endl;
+    cout<<"    ||                   WISH YOU HAVE FUN                  || "<<endl;
+    cout<<"    ||                                                      || "<<endl;
+    cout<<"    ||                                                      || "<<endl;
+    cout<<"    ||                                    author: kant      || "<<endl;
+    cout<<"     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||  "<<endl<<endl<<endl;
+    input();
+    solve();
+    end=clock();
+    time=(double)(end-start)/CLOCKS_PER_SEC;
+    cout<<endl<<"   Time to solve: "<<time<<"s"<<endl;
     system("pause");
-}                     
+}
